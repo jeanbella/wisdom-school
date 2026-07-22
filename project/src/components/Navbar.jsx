@@ -1,11 +1,21 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
-import logo from "../assets/images/logo.jpg";
+import logo from "../assets/images/logo1.jpg";
+import { ChevronDown } from "lucide-react";
 
 
 const menuItems = [
     { name: 'Home', link: '/' },
-    { name: 'About', link: '/aboutUs' },
+    // { name: 'About', link: '/aboutUs' },
+    {
+        name: 'About Us',
+        dropdown: [
+            { name: 'Our History', link: '/ourHistory' },
+            { name: "Principal's Message", link: '/principalsMessage' },
+            { name: 'School Overview', link: '/schoolOverview' },
+            { name: "Leadership Team", link: '/stuffPage' },
+            { name: "Branches", link: '/branches' },
+        ],
+    },
     // {
     //     name: 'Schools',
     //     dropdown: [
@@ -22,31 +32,33 @@ const menuItems = [
     //         { name: 'International', link: '/admissions/international' },
     //     ],
     // },
-    { name: 'Academics', link: '/Academic' },
-    // {
-    //     name: 'Academics',
-    //     dropdown: [
-    //         { name: 'Programs', link: '/academics/programs' },
-    //         { name: 'Faculties', link: '/academics/faculties' },
-    //         { name: 'Research', link: '/academics/research' },
-    //     ],
-    // },
+    // { name: 'Academics', link: '/Academic' },
+    {
+        name: 'Academics',
+        dropdown: [
+            { name: 'Nursery', link: '/academics/nursery' },
+            { name: 'Primary', link: '/academics/primary' },
+            { name: 'Wisdom High School', link: '/academics/highSchool' },
+        ],
+    },
     {
         name: 'Student Life',
         dropdown: [
             { name: 'Clubs', link: '/student-life/clubs' },
-            { name: 'Spiritual Life', link: '/student-life' },
+            // { name: 'Clubs', link: '/clubpage' },
+            // { name: 'Spiritual Life', link: '/student-life' },
             { name: 'Sports', link: '/student-life/sports' },
         ],
     },
-    {
-        name: 'News', link: '/campus-news'
-        // dropdown: [
-        //     { name: 'News', link: '/campus-news' },
-        //     { name: 'Events', link: '/events' },
-        // ],
-    },
+    // {
+    //     name: 'News', link: '/campus-news'
+    //     // dropdown: [
+    //     //     { name: 'News', link: '/campus-news' },
+    //     //     { name: 'Events', link: '/events' },
+    //     // ],
+    // },
     { name: 'Contact Us', link: '/contact' },
+    { name: 'Register', link: '/register', isButton: true }
 ];
 
 export default function Navbar() {
@@ -66,7 +78,7 @@ export default function Navbar() {
                     </div>
 
                     {/* Desktop Menu */}
-                    <div className="hidden md:flex space-x-8">
+                    <div className="hidden md:flex items-center space-x-8">
                         {menuItems.map((item, idx) =>
                             item.dropdown ? (
                                 <div
@@ -75,8 +87,9 @@ export default function Navbar() {
                                     onMouseEnter={() => setOpenDropdown(item.name)}
                                     onMouseLeave={() => setOpenDropdown(null)}
                                 >
-                                    <button className="text-black hover:text-blue-600">
+                                    <button className="flex items-center gap-1 text-black hover:text-blue-600">
                                         {item.name}
+                                         <ChevronDown size={16} />
                                     </button>
                                     <div
                                         className={`absolute left-1/2 transform -translate-x-1/2 top-full w-48 bg-white rounded-md shadow-lg z-50 ${openDropdown === item.name ? 'block' : 'hidden'
@@ -97,7 +110,11 @@ export default function Navbar() {
                                 <a
                                     key={idx}
                                     href={item.link}
-                                    className="text-black hover:text-blue-600"
+                                    className={
+                                        item.isButton
+                                            ? 'ml-4 bg-blue-600 text-white px-5 py-2 rounded-lg font-semibold shadow hover:bg-blue-700 transition-all duration-300'
+                                            : 'text-black hover:text-blue-600'
+                                    }
                                 >
                                     {item.name}
                                 </a>
@@ -164,7 +181,11 @@ export default function Navbar() {
                                 <a
                                     key={idx}
                                     href={item.link}
-                                    className="text-black hover:text-blue-600"
+                                    className={
+                                        item.isButton
+                                            ? 'bg-blue-600 text-white px-5 py-2 rounded-lg font-semibold shadow-md hover:bg-blue-700 transition'
+                                            : 'text-black hover:text-blue-600'
+                                    }
                                 >
                                     {item.name}
                                 </a>

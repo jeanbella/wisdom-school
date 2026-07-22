@@ -1,54 +1,240 @@
 import React, { useState, useEffect } from "react";
+import img1 from "../assets/images/dir3.jpg";
+import img2 from "../assets/images/dir2.jpeg";
+import { motion, AnimatePresence } from "framer-motion";
 
-// Example images
-import img1 from "../assets/gallery/gallery1.jpg";
-import img2 from "../assets/gallery/gallery2.jpg";
-import img3 from "../assets/gallery/gallery3.jpg";
+const slides = [
+  {
+    image: img2,
+    title: "Meeting with the Minister of Education",
+    description:
+      "Our Director and Operations Manager receiving an award for outstanding performance.",
+  },
+  {
+    image: img1,
+    title: "Strengthening Educational Partnerships",
+    description:
+      "Building strong collaborations to improve learning experiences and student success across Rwanda.",
+  },
+];
+const testimonials = [
+  {
+    id: 1,
+    name: "Mrs. Diane Uwase",
+    role: "Parent",
+    // image: img2,
+    message:
+      "Wisdom Schools has transformed my child's confidence and academic performance. I’m truly grateful for the dedicated teachers.",
+  },
+  {
+    id: 2,
+    name: "Mr. Jean Paul N.",
+    role: "Parent",
+    // image: img2,
+    message:
+      "The school environment is very safe and inspiring. My daughter loves going to school every day.",
+  },
+  {
+    id: 3,
+    name: "Mrs. Chantal M.",
+    role: "Parent",
+    // image: img2,
+    message:
+      "Excellent communication from teachers and strong academic support. I highly recommend Wisdom Schools.",
+  },
+];
 
-const images = [img1, img2, img3];
+export default function LeadershipSection() {
+  const [current, setCurrent] = useState(0);
+  const [index, setIndex] = useState(0);
 
-export default function TextImageSlider() {
-  const [currentIndex, setCurrentIndex] = useState(0);
-
-  // Auto slide every 7 seconds
+  // auto slide every 4 seconds
   useEffect(() => {
     const interval = setInterval(() => {
-      setCurrentIndex((prevIndex) => (prevIndex + 1) % images.length);
-    }, 7000);
+      setIndex((prev) => (prev + 1) % testimonials.length);
+    }, 4000);
+
+    return () => clearInterval(interval);
+  }, []);
+
+  const prev = (index - 1 + testimonials.length) % testimonials.length;
+  const next = (index + 1) % testimonials.length;
+
+  const cards = [testimonials[prev], testimonials[index], testimonials[next]];
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrent((prev) => (prev + 1) % slides.length);
+    }, 5000);
 
     return () => clearInterval(interval);
   }, []);
 
   return (
-    // Full page background
-    <div className="w-full bg-gradient-to-b from-gray-100 to-gray-200 flex items-center">
-      {/* Centered container */}
-      <div className="flex flex-col md:flex-row items-center justify-between max-w-7xl mx-auto px-4 py-16 gap-8 w-full">
-        {/* Left: Text Content */}
-        <div className="md:w-1/2 text-center md:text-left">
-          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-blue-800 mb-4">
-            Our Objective
-          </h2>
-          <p className="text-gray-700 text-sm sm:text-base md:text-lg mb-6">
-            To build strong children for a strong Rwanda with individuals who are educated, disciplined, creative, and guided by faith.
-          </p>
-        </div>
+    <>
+      <section className="bg-white py-10">
+        <div className="max-w-7xl mx-auto px-6">
 
-        {/* Right: Image Slider */}
-        <div className="md:w-1/2 relative w-full h-56 sm:h-64 md:h-96 rounded-lg overflow-hidden shadow-lg">
-          {images.map((img, index) => (
-            <img
-              key={index}
-              src={img}
-              alt={`Slide ${index + 1}`}
-              className={`
-                w-full h-full object-cover rounded-lg transition-transform duration-700 ease-in-out
-                ${index === currentIndex ? "translate-x-0 opacity-100" : "translate-x-full opacity-0 absolute top-0 left-0"}
-              `}
-            />
-          ))}
+          {/* Header */}
+          {/* <div className="text-center max-w-3xl mx-auto mb-16">
+          <span className="uppercase tracking-[0.3em] text-blue-600 font-semibold">
+            Leadership Spotlight
+          </span>
+
+          <h2 className="mt-4 text-4xl md:text-5xl font-bold text-gray-900">
+            Leading Education Through Vision & Partnership
+          </h2>
+        </div> */}
+
+          {/* Main Layout */}
+          <div className="grid lg:grid-cols-12 gap-10 items-center">
+
+            {/* Image */}
+            <div className="lg:col-span-7">
+              <div className="relative overflow-hidden rounded-3xl shadow-2xl h-[550px]">
+
+                {slides.map((slide, index) => (
+                  <img
+                    key={index}
+                    src={slide.image}
+                    alt={slide.title}
+                    className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 ${current === index ? "opacity-100" : "opacity-0"
+                      }`}
+                  />
+                ))}
+
+                {/* Overlay Card */}
+                <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/90 via-black/60 to-transparent p-8">
+
+                  <h3 className="text-3xl font-bold text-white">
+                    {slides[current].title}
+                  </h3>
+
+                  <p className="mt-4 text-gray-200 leading-relaxed">
+                    {slides[current].description}
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            {/* Text Side */}
+            <div className="lg:col-span-5">
+
+              <div className="bg-gray-50 rounded-3xl p-10 shadow-lg">
+
+                <h3 className="text-3xl font-bold text-gray-900">
+                  Building a Brighter Future
+                </h3>
+
+                <p className="mt-6 text-gray-600 leading-relaxed">
+                  Wisdom Schools Rwanda remains committed to collaboration,
+                  innovation, and academic excellence. Through partnerships
+                  with educational stakeholders, we continuously enhance
+                  learning opportunities for our students.
+                </p>
+
+                <div className="mt-10 space-y-6">
+
+                  <div className="border-l-4 border-blue-600 pl-4">
+                    <h4 className="font-bold text-gray-900">
+                      Educational Leadership
+                    </h4>
+                    <p className="text-gray-600 mt-1">
+                      Advancing quality education through strong leadership.
+                    </p>
+                  </div>
+
+                  <div className="border-l-4 border-green-600 pl-4">
+                    <h4 className="font-bold text-gray-900">
+                      Strategic Partnerships
+                    </h4>
+                    <p className="text-gray-600 mt-1">
+                      Collaborating with national institutions for growth.
+                    </p>
+                  </div>
+
+                  <div className="border-l-4 border-yellow-500 pl-4">
+                    <h4 className="font-bold text-gray-900">
+                      Student Success
+                    </h4>
+                    <p className="text-gray-600 mt-1">
+                      Ensuring every learner reaches their full potential.
+                    </p>
+                  </div>
+
+                </div>
+
+                {/* Navigation Dots */}
+                <div className="flex gap-3 mt-10">
+                  {slides.map((_, index) => (
+                    <button
+                      key={index}
+                      onClick={() => setCurrent(index)}
+                      className={`h-3 rounded-full transition-all ${current === index
+                        ? "w-10 bg-blue-600"
+                        : "w-3 bg-gray-300"
+                        }`}
+                    />
+                  ))}
+                </div>
+
+              </div>
+            </div>
+
+          </div>
         </div>
-      </div>
-    </div>
+      </section>
+
+      <section className="py-10 bg-gray-50">
+        <div className="max-w-6xl mx-auto px-6 leading-relaxed text-center">
+
+          <h2 className="text-3xl leading-relaxed font-bold text-gray-900 mb-12">
+            What Parents Say
+          </h2>
+
+          <div className="flex items-center justify-center gap-6">
+            <AnimatePresence mode="wait">
+              {cards.map((item, i) => {
+                const isCenter = i === 1;
+
+                return (
+                  <motion.div
+                    key={item.id}
+                    initial={{ opacity: 0, x: 80, scale: 0.8 }}
+                    animate={{
+                      opacity: isCenter ? 1 : 0.5,
+                      x: 0,
+                      scale: isCenter ? 1 : 0.85,
+                    }}
+                    exit={{ opacity: 0, x: -80, scale: 0.7 }}
+                    transition={{ duration: 0.6, ease: "easeInOut" }}
+                    className={`w-[320px] p-6 rounded-2xl shadow-lg bg-white transition ${isCenter ? "z-10" : "opacity-70"
+                      }`}
+                  >
+                    <img
+                      src={item.image}
+                      alt={item.name}
+                      className="w-20 h-20 mx-auto rounded-full object-cover border-4 border-blue-500"
+                    />
+
+                    <p className="mt-6 text-gray-600 italic">
+                      "{item.message}"
+                    </p>
+
+                    <h4 className="mt-6 font-bold text-gray-900">
+                      {item.name}
+                    </h4>
+
+                    <span className="text-sm text-blue-600">
+                      {item.role}
+                    </span>
+                  </motion.div>
+                );
+              })}
+            </AnimatePresence>
+          </div>
+        </div>
+      </section>
+    </>
   );
 }
