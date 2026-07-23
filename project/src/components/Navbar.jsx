@@ -58,7 +58,7 @@ const menuItems = [
     //     // ],
     // },
     { name: 'Contact Us', link: '/contact' },
-    { name: 'Register', link: '/register', isButton: true }
+    // { name: 'Register', link: '/register', isButton: true }
 ];
 
 export default function Navbar() {
